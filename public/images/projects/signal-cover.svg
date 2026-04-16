@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" fill="none">
+  <rect width="1600" height="1000" rx="48" fill="#F4EFE4"/>
+  <rect x="90" y="90" width="1420" height="820" rx="34" fill="#1A2C3A"/>
+  <rect x="144" y="144" width="1312" height="120" rx="24" fill="#ffffff" fill-opacity=".12"/>
+  <rect x="144" y="320" width="416" height="520" rx="24" fill="#EF6C57"/>
+  <rect x="612" y="320" width="392" height="240" rx="24" fill="#ffffff" fill-opacity=".16"/>
+  <rect x="1064" y="320" width="392" height="240" rx="24" fill="#ffffff" fill-opacity=".16"/>
+  <rect x="612" y="600" width="844" height="240" rx="24" fill="#2B7A78"/>
+  <text x="144" y="876" fill="#F8F6F1" font-family="Arial, sans-serif" font-size="54">Signal Dashboard</text>
+</svg>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" fill="none">
+  <rect width="1600" height="1000" rx="48" fill="#F7F4EE"/>
+  <rect x="84" y="84" width="1432" height="832" rx="36" fill="#111827"/>
+  <rect x="144" y="144" width="520" height="600" rx="28" fill="#EF6C57"/>
+  <rect x="704" y="144" width="672" height="180" rx="28" fill="#ffffff" fill-opacity=".14"/>
+  <rect x="704" y="360" width="672" height="180" rx="28" fill="#ffffff" fill-opacity=".1"/>
+  <rect x="704" y="576" width="672" height="168" rx="28" fill="#2B7A78"/>
+  <text x="144" y="840" fill="#F8F6F1" font-family="Arial, sans-serif" font-size="54">Atlas Commerce</text>
+</svg>

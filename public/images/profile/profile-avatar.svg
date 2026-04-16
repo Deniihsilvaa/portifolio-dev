@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="960" viewBox="0 0 800 960" fill="none">
+  <rect width="800" height="960" rx="48" fill="#F3E8D3"/>
+  <circle cx="400" cy="308" r="148" fill="#2B7A78"/>
+  <path d="M188 816C188 685.661 293.661 580 424 580H376C506.339 580 612 685.661 612 816V864H188V816Z" fill="#111827"/>
+  <rect x="90" y="74" width="620" height="812" rx="36" stroke="#111827" stroke-opacity=".12" stroke-width="16"/>
+  <text x="96" y="110" fill="#111827" fill-opacity=".55" font-family="Arial, sans-serif" font-size="32">Profile Placeholder</text>
+</svg>

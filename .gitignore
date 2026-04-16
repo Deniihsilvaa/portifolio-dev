@@ -1,0 +1,20 @@
+# dependencies
+node_modules/
+
+# build
+dist/
+
+# env
+.env
+.env.local
+
+# cache
+.npm-cache/
+
+# editor
+.vscode/
+
+# system
+.DS_Store
+
+docs/
