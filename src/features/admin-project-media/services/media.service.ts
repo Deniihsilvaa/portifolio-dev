@@ -11,6 +11,7 @@ function mapMediaErrorMessage(message: string) {
   const normalized = message.toLowerCase();
 
   if (normalized.includes("bucket not found")) {
+    console.log('bucket não foi criado ainda', message);
     return 'Supabase Storage bucket "project-media" was not found. Create the bucket before uploading media.';
   }
 
@@ -66,6 +67,40 @@ function extractBucketPathFromPublicUrl(url: string) {
   return decodeURIComponent(url.slice(index + marker.length));
 }
 
+let ensureBucketPromise: Promise<void> | null = null;
+
+async function ensureBucketExists() {
+  if (ensureBucketPromise) {
+    return ensureBucketPromise;
+  }
+
+  ensureBucketPromise = (async () => {
+    const client = assertSupabaseClient();
+    const { data: buckets, error: listError } = await client.storage.listBuckets();
+
+    if (listError) {
+      ensureBucketPromise = null;
+      throw new Error(`Failed to list buckets: ${listError.message}`);
+    }
+
+    const bucketExists = buckets?.some((b) => b.name === bucketName);
+
+    if (!bucketExists) {
+      console.log(`Creating public bucket: ${bucketName}`);
+      const { error: createError } = await client.storage.createBucket(bucketName, {
+        public: true,
+      });
+
+      if (createError && !createError.message.toLowerCase().includes("already exists")) {
+        ensureBucketPromise = null;
+        console.error("Error creating bucket:", createError.message);
+      }
+    }
+  })();
+
+  return ensureBucketPromise;
+}
+
 export async function getProjectMedia(projectId: string): Promise<ProjectMediaRecord[]> {
   const client = assertSupabaseClient();
   const { data, error } = await client
@@ -87,6 +122,9 @@ export async function uploadMedia(
   displayOrder: number,
 ): Promise<ProjectMediaRecord> {
   const client = assertSupabaseClient();
+  
+  await ensureBucketExists();
+
   const { type, path } = buildStoragePath(projectId, file);
   const { error: uploadError } = await client.storage
     .from(bucketName)
@@ -159,9 +197,18 @@ export async function updateMediaOrder(
   }
 
   const client = assertSupabaseClient();
-  const { error } = await client.from("project_media").upsert(mediaList);
+  
+  const promises = mediaList.map((media) =>
+    client
+      .from("project_media")
+      .update({ display_order: media.display_order })
+      .eq("id", media.id)
+  );
 
-  if (error) {
-    throw new Error(mapMediaErrorMessage(error.message));
+  const results = await Promise.all(promises);
+
+  const firstError = results.find((result) => result.error);
+  if (firstError?.error) {
+    throw new Error(mapMediaErrorMessage(firstError.error.message));
   }
 }

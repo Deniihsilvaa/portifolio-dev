@@ -26,7 +26,7 @@ export async function getProfile(): Promise<Profile> {
   }
 
   const { data, error } = await supabaseClient
-    .from("profile")
+    .from("profiles")
     .select("*")
     .single();
 
