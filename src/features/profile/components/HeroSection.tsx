@@ -41,7 +41,7 @@ export function HeroSection({ profile, isLoading, error }: HeroSectionProps) {
         animate={shouldReduceMotion ? undefined : { scale: [1, 1.12, 1], y: [0, -20, 0] }}
         transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
       />
-      <div className="grid items-center gap-10 lg:grid-cols-[1.2fr_0.8fr]">
+      <div className="flex flex-col-reverse items-center gap-10 text-center sm:text-left">
         <motion.div
           className="space-y-6"
           initial={shouldReduceMotion ? false : { opacity: 0, y: 36 }}
@@ -132,18 +132,18 @@ export function HeroSection({ profile, isLoading, error }: HeroSectionProps) {
           transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
         >
           <motion.div
-            className="rounded-[2rem] border hairline-card bg-[rgba(17,24,39,0.04)] p-4"
-            whileHover={shouldReduceMotion ? undefined : { y: -8, rotate: -1.5 }}
+            className="shrink-0 rounded-[2rem] border hairline-card bg-[rgba(17,24,39,0.04)] p-3"
+            whileHover={shouldReduceMotion ? undefined : { y: -4, rotate: -1.5 }}
             transition={{ type: "spring", stiffness: 220, damping: 20 }}
           >
             {profile.avatarUrl ? (
               <img
                 src={profile.avatarUrl}
                 alt={profile.name}
-                className="h-[320px] w-full max-w-[320px] rounded-[1.5rem] object-cover"
+                className="aspect-square w-40 rounded-[1.5rem] object-cover sm:w-48"
               />
             ) : (
-              <div className="h-[320px] w-full max-w-[320px] rounded-[1.5rem] bg-coral/10" />
+              <div className="aspect-square w-40 rounded-[1.5rem] bg-coral/10 sm:w-48" />
             )}
           </motion.div>
         </motion.div>

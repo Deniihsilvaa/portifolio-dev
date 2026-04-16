@@ -26,7 +26,7 @@ export function AboutSection({ profile, isLoading, error }: AboutSectionProps) {
   return (
     <motion.section
       id="about"
-      className="surface-card grid gap-8 rounded-[2rem] p-8 shadow-card lg:grid-cols-[0.9fr_1.1fr]"
+      className="surface-card flex flex-col gap-8 rounded-[2rem] p-8 shadow-card"
       initial={shouldReduceMotion ? false : { opacity: 0, y: 24 }}
       whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.25 }}
@@ -35,7 +35,7 @@ export function AboutSection({ profile, isLoading, error }: AboutSectionProps) {
       <SectionHeading
         eyebrow="Profile"
         title={[profile.name, profile.location].filter(Boolean).join(" from ") || "About Me"}
-        description={profile.summary || "No description available."}
+        description={profile.bio.join(" ") || "No description available."}
       />
       <motion.div
         className="space-y-6"

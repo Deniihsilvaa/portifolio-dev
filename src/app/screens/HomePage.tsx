@@ -14,35 +14,44 @@ export function HomePage() {
   const opacity = useTransform(scrollYProgress, [0, 0.35], [1, 0.35]);
   const springY = useSpring(y, { stiffness: 110, damping: 24, mass: 0.3 });
 
+
   return (
-    <div className="relative space-y-10 overflow-hidden pb-16 md:space-y-16">
+    <div className="relative overflow-hidden pb-16">
       <motion.div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-[-10%] top-[-6rem] h-[28rem] rounded-full bg-gradient-to-r from-coral/18 via-gold/10 to-teal/18 blur-3xl"
         style={{ y: springY, opacity }}
       />
 
-      <HeroSection
-        profile={profile}
-        isLoading={isProfileLoading}
-        error={profileError}
-      />
+      <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[360px_1fr] xl:grid-cols-[400px_1fr] pt-8 lg:pt-16">
+        {/* Left Column - Profile & Info (Sticky) */}
+        <div className="sticky top-8 space-y-8">
+          <HeroSection
+            profile={profile}
+            isLoading={isProfileLoading}
+            error={profileError}
+          />
 
-      <Reveal delay={0.05}>
-        <AboutSection
-          profile={profile}
-          isLoading={isProfileLoading}
-          error={profileError}
-        />
-      </Reveal>
+          <Reveal delay={0.05}>
+            <AboutSection
+              profile={profile}
+              isLoading={isProfileLoading}
+              error={profileError}
+            />
+          </Reveal>
+        </div>
 
-      <Reveal delay={0.1}>
-        <FeaturedProjectsSection
-          projects={projects}
-          isLoading={isProjectsLoading}
-          error={projectsError}
-        />
-      </Reveal>
+        {/* Right Column - Projects Grid */}
+        <div className="space-y-8">
+          <Reveal delay={0.1}>
+            <FeaturedProjectsSection
+              projects={projects}
+              isLoading={isProjectsLoading}
+              error={projectsError}
+            />
+          </Reveal>
+        </div>
+      </div>
     </div>
   );
 }
