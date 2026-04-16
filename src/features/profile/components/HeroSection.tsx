@@ -28,7 +28,7 @@ export function HeroSection({ profile, isLoading, error }: HeroSectionProps) {
   }
 
   return (
-    <section className="surface-card relative isolate overflow-hidden rounded-[2rem] bg-hero-grid px-6 py-12 shadow-card sm:px-10 sm:py-16">
+    <section className="surface-card relative isolate overflow-hidden rounded-[2.5rem] bg-surface/20 p-8 shadow-card backdrop-blur-md border hairline-card">
       <motion.div
         aria-hidden="true"
         className="absolute right-[-4rem] top-[-3rem] h-56 w-56 rounded-full bg-coral/15 blur-3xl"

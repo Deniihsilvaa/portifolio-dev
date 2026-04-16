@@ -1,3 +1,5 @@
+
+// TODO: Verificar se vale a pena deixar
 import { motion, useReducedMotion } from "motion/react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import type { Profile } from "@/features/profile/types/profile";
@@ -26,7 +28,7 @@ export function AboutSection({ profile, isLoading, error }: AboutSectionProps) {
   return (
     <motion.section
       id="about"
-      className="surface-card flex flex-col gap-8 rounded-[2rem] p-8 shadow-card"
+      className="surface-card flex flex-col gap-6 rounded-[2.5rem] bg-surface/20 p-8 shadow-card backdrop-blur-md border hairline-card"
       initial={shouldReduceMotion ? false : { opacity: 0, y: 24 }}
       whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.25 }}
@@ -52,7 +54,7 @@ export function AboutSection({ profile, isLoading, error }: AboutSectionProps) {
           },
         }}
       >
-        <div className="space-y-4 text-base leading-7 text-muted-on-card">
+        {/* <div className="space-y-4 text-base leading-7 text-muted-on-card">
           {profile.bio.map((paragraph) => (
             <motion.p
               key={paragraph}
@@ -64,7 +66,7 @@ export function AboutSection({ profile, isLoading, error }: AboutSectionProps) {
               {paragraph}
             </motion.p>
           ))}
-        </div>
+        </div> */}
         <div className="flex flex-wrap gap-2">
           {profile.skills.map((skill, index) => (
             <motion.span

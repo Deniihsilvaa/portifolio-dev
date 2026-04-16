@@ -24,29 +24,29 @@ export function ProjectCard({ project }: ProjectCardProps) {
       >
         <Link
           to={`/project/${project.slug}`}
-          className="surface-card group block overflow-hidden rounded-[2rem] shadow-card transition"
+          className="surface-card group block overflow-hidden rounded-[1.5rem] shadow-card transition"
         >
           <div className="overflow-hidden">
             {project.coverImage ? (
               <motion.img
                 src={project.coverImage}
                 alt={project.title}
-                className="h-64 w-full object-cover"
+                className="h-44 w-full object-cover"
                 whileHover={shouldReduceMotion ? undefined : { scale: 1.04 }}
                 transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
               />
             ) : (
-              <div className="h-64 w-full bg-teal/10" />
+              <div className="h-44 w-full bg-teal/10" />
             )}
           </div>
-          <div className="space-y-4 p-6">
+          <div className="space-y-3 p-5">
             <Badge label={project.category} />
-            <div className="space-y-2">
-              <h3 className="font-display text-2xl font-bold tracking-tight">{project.title}</h3>
-              <p className="text-sm font-medium text-muted-on-card">{project.subtitle}</p>
-              <p className="text-base leading-7 text-muted-on-card">{project.summary}</p>
+            <div className="space-y-1.5">
+              <h3 className="font-display text-xl font-bold tracking-tight line-clamp-1">{project.title}</h3>
+              <p className="text-xs font-medium text-muted-on-card line-clamp-1">{project.subtitle}</p>
+              <p className="text-sm leading-relaxed text-muted-on-card line-clamp-2">{project.summary}</p>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-1.5 pt-2">
               {project.stack?.map((item) => (
                 <span key={item} className="text-sm font-medium text-teal">
                   {item}

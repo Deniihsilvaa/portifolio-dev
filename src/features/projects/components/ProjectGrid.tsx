@@ -21,7 +21,7 @@ export function ProjectGrid({ projects, isLoading, error }: ProjectGridProps) {
 
   return (
     <motion.div
-      className="grid gap-6 md:grid-cols-2"
+      className="grid gap-5 sm:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3"
       initial={shouldReduceMotion ? false : "hidden"}
       whileInView={shouldReduceMotion ? undefined : "show"}
       viewport={{ once: true, amount: 0.15 }}
