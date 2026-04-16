@@ -1,5 +1,7 @@
 import type { AuthChangeEvent, Session } from "@supabase/supabase-js";
 import { supabaseClient } from "@/lib/supabaseClient";
+import { mapProfile } from "@/mappers/profile.mapper";
+import { ProfileEdit } from "@/features/profile/types/profile";
 
 type AdminCredentials = {
   email: string;
@@ -57,4 +59,26 @@ export function onAdminAuthStateChange(
 
 export function isAdminAuthConfigured() {
   return Boolean(supabaseClient);
+}
+
+export async function editProfile(profile: ProfileEdit) {
+  if (!supabaseClient) {
+    return mapProfile(null);
+  }
+
+  const ID_USER = import.meta.env.VITE_USER_ID;
+  console.log("ID_USER", ID_USER);
+  const { data, error } = await supabaseClient
+    .from("profiles")
+    .update(profile)
+    .eq("id", `${ID_USER}`)
+    .limit(1)
+    .maybeSingle();
+
+  console.log(`consulta profile usando: ${ID_USER}`, data);
+  if (error || !data) {
+    console.log("Dados do profile", error);
+    return mapProfile(null);
+  }
+  return mapProfile(data);
 }

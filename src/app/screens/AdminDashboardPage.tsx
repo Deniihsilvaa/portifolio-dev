@@ -25,7 +25,13 @@ export function AdminDashboardPage() {
           </p>
         </div>
 
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-3">
+          <Link
+            to="/admin/profile"
+            className="rounded-full bg-teal px-4 py-2 text-sm font-semibold text-ink shadow-[0_0_15px_rgba(20,184,166,0.3)] transition hover:-translate-y-0.5 hover:shadow-[0_0_20px_rgba(20,184,166,0.5)]"
+          >
+            Manage Profile
+          </Link>
           <Link
             to="/admin/projects"
             className="rounded-full bg-[var(--color-text-dark)] px-4 py-2 text-sm font-semibold text-[var(--color-card-strong)] transition hover:-translate-y-0.5"

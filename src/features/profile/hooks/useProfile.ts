@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { getProfile } from "@/features/profile/services/profile.service";
-import type { Profile } from "@/features/profile/types/profile";
+import { editProfileService, getProfile } from "@/features/profile/services/profile.service";
+import type { Profile, ProfileEdit } from "@/features/profile/types/profile";
 
 type UseProfileState = {
   profile: Profile | null;
@@ -45,3 +45,27 @@ export function useProfile(): UseProfileState {
 
   return { profile, isLoading, error };
 }
+
+export function useProfileEdit() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
+
+
+  async function editProfileHook(profile: ProfileEdit) {
+    try {
+      setIsLoading(true);
+      setIsSaving(true);
+      setError(null);
+      await editProfileService(profile);
+    } catch (loadError) {
+      setError(loadError instanceof Error ? loadError.message : "Failed to edit profile");
+    } finally {
+      setIsSaving(false);
+      setIsLoading(false);
+    }
+  }
+
+  return { isLoading, error, editProfileHook, isSaving };
+}
+

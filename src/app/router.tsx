@@ -39,6 +39,11 @@ const AdminProjectEditPage = lazy(async () => {
   return { default: module.AdminProjectEditPage };
 });
 
+const AdminProfileEditPage = lazy(async () => {
+  const module = await import("@/app/screens/AdminProfileEditPage");
+  return { default: module.AdminProfileEditPage };
+});
+
 function RouteFallback() {
   return (
     <div className="surface-card rounded-[2rem] p-8 shadow-card">
@@ -88,6 +93,16 @@ export const router = createBrowserRouter([
           <ProtectedAdminRoute>
             <Suspense fallback={<RouteFallback />}>
               <AdminDashboardPage />
+            </Suspense>
+          </ProtectedAdminRoute>
+        ),
+      },
+      {
+        path: "profile",
+        element: (
+          <ProtectedAdminRoute>
+            <Suspense fallback={<RouteFallback />}>
+              <AdminProfileEditPage />
             </Suspense>
           </ProtectedAdminRoute>
         ),
