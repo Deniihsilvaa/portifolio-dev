@@ -72,7 +72,7 @@ export function HeroSection({ profile, isLoading, error }: HeroSectionProps) {
                 show: { opacity: 1, y: 0 },
               }}
             >
-              Portfolio Home
+              {profile.name || "Portfolio Home"}
             </motion.p>
             <motion.h1
               className="font-display text-4xl font-extrabold tracking-tight text-on-card sm:text-5xl lg:text-6xl"
@@ -94,7 +94,7 @@ export function HeroSection({ profile, isLoading, error }: HeroSectionProps) {
             </motion.p>
           </motion.div>
           <motion.div
-            className="flex flex-wrap gap-3"
+            className="flex flex-wrap items-center gap-4"
             initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
             animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
@@ -107,6 +107,21 @@ export function HeroSection({ profile, isLoading, error }: HeroSectionProps) {
                 About Me
               </ButtonLink>
             </motion.div>
+            {profile.socialLinks && profile.socialLinks.length > 0 && (
+              <div className="ml-2 flex items-center gap-3 border-l border-white/10 pl-4">
+                {profile.socialLinks.map((link) => (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-sm font-medium text-muted-on-card transition-colors hover:text-white"
+                  >
+                    {link.label}
+                  </a>
+                ))}
+              </div>
+            )}
           </motion.div>
         </motion.div>
         <motion.div
@@ -121,11 +136,15 @@ export function HeroSection({ profile, isLoading, error }: HeroSectionProps) {
             whileHover={shouldReduceMotion ? undefined : { y: -8, rotate: -1.5 }}
             transition={{ type: "spring", stiffness: 220, damping: 20 }}
           >
-            <img
-              src={profile.avatarUrl}
-              alt={profile.name}
-              className="h-[320px] w-full max-w-[320px] rounded-[1.5rem] object-cover"
-            />
+            {profile.avatarUrl ? (
+              <img
+                src={profile.avatarUrl}
+                alt={profile.name}
+                className="h-[320px] w-full max-w-[320px] rounded-[1.5rem] object-cover"
+              />
+            ) : (
+              <div className="h-[320px] w-full max-w-[320px] rounded-[1.5rem] bg-coral/10" />
+            )}
           </motion.div>
         </motion.div>
       </div>

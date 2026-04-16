@@ -34,8 +34,8 @@ export function AboutSection({ profile, isLoading, error }: AboutSectionProps) {
     >
       <SectionHeading
         eyebrow="Profile"
-        title={`${profile.name} from ${profile.location}`}
-        description={profile.summary}
+        title={[profile.name, profile.location].filter(Boolean).join(" from ") || "About Me"}
+        description={profile.summary || "No description available."}
       />
       <motion.div
         className="space-y-6"

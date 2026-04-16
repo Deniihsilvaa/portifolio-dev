@@ -25,13 +25,13 @@ export function FeaturedProjectsSection({
       viewport={{ once: true, amount: 0.15 }}
       transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div className="surface-card rounded-[2rem] p-8 shadow-card">
+      {/* <div className="surface-card rounded-[2rem] p-8 shadow-card">
         <SectionHeading
           eyebrow="Projects Grid"
           title="Selected work shaped into reusable portfolio modules"
           description="The projects screen is composed as a reusable grid of cards, each routing into a richer project details view with gallery, metadata, and README rendering."
         />
-      </div>
+      </div> */}
       <ProjectGrid projects={projects} isLoading={isLoading} error={error} />
     </motion.section>
   );

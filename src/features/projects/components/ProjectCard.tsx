@@ -27,13 +27,17 @@ export function ProjectCard({ project }: ProjectCardProps) {
           className="surface-card group block overflow-hidden rounded-[2rem] shadow-card transition"
         >
           <div className="overflow-hidden">
-            <motion.img
-              src={project.coverImage}
-              alt={project.title}
-              className="h-64 w-full object-cover"
-              whileHover={shouldReduceMotion ? undefined : { scale: 1.04 }}
-              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-            />
+            {project.coverImage ? (
+              <motion.img
+                src={project.coverImage}
+                alt={project.title}
+                className="h-64 w-full object-cover"
+                whileHover={shouldReduceMotion ? undefined : { scale: 1.04 }}
+                transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+              />
+            ) : (
+              <div className="h-64 w-full bg-teal/10" />
+            )}
           </div>
           <div className="space-y-4 p-6">
             <Badge label={project.category} />

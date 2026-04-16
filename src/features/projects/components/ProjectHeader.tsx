@@ -37,11 +37,15 @@ export function ProjectHeader({ project }: ProjectHeaderProps) {
         </div>
       </div>
       <div className="rounded-[1.5rem] bg-[rgba(17,24,39,0.05)] p-4">
-        <img
-          src={project.coverImage}
-          alt={project.title}
-          className="h-full min-h-64 w-full rounded-[1.25rem] object-cover"
-        />
+        {project.coverImage ? (
+          <img
+            src={project.coverImage}
+            alt={project.title}
+            className="h-full min-h-64 w-full rounded-[1.25rem] object-cover"
+          />
+        ) : (
+          <div className="h-full min-h-64 w-full rounded-[1.25rem] bg-teal/10" />
+        )}
       </div>
     </section>
   );
