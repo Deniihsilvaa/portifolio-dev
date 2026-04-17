@@ -2,6 +2,7 @@ import { supabaseClient } from "@/lib/supabaseClient";
 import type {
   AdminProjectPayload,
   AdminProjectRecord,
+  AdminProjectFormValues,
 } from "@/features/admin-project-media/types/project.types";
 
 function assertSupabaseClient() {
@@ -21,6 +22,14 @@ function mapProjectErrorMessage(message: string) {
   }
 
   return message;
+}
+
+export function toPayload(values: AdminProjectFormValues): AdminProjectPayload {
+  const { technologies, ...rest } = values;
+  return {
+    ...rest,
+    demo_url: values.demo_url || null,
+  };
 }
 
 export async function createProject(
@@ -63,7 +72,7 @@ export async function getProjectById(id: string): Promise<AdminProjectRecord | n
   const client = assertSupabaseClient();
   const { data, error } = await client
     .from("projects")
-    .select(projectColumns)
+    .select(`${projectColumns}, project_technologies(technology:technologies(*))`)
     .eq("id", id)
     .single();
 
@@ -71,5 +80,44 @@ export async function getProjectById(id: string): Promise<AdminProjectRecord | n
     throw new Error(mapProjectErrorMessage(error.message));
   }
 
-  return data as AdminProjectRecord;
+  return {
+    ...data,
+    technologies: (data.project_technologies || []).map((pt: any) => pt.technology),
+  } as AdminProjectRecord;
+}
+
+export async function updateProjectTechnologies(projectId: string, technologyIds: string[]) {
+  const client = assertSupabaseClient();
+
+  const { error: deleteError } = await client
+    .from("project_technologies")
+    .delete()
+    .eq("project_id", projectId);
+
+  if (deleteError) throw deleteError;
+
+  if (technologyIds.length === 0) return;
+
+  const { error: insertError } = await client
+    .from("project_technologies")
+    .insert(technologyIds.map((id) => ({ project_id: projectId, technology_id: id })));
+
+  if (insertError) throw insertError;
+}
+
+export async function handlerTecnologies() {
+  if (!supabaseClient) {
+    return [];
+  }
+
+  const { data, error } = await supabaseClient
+    .from("technologies")
+    .select("*")
+    .order("name", { ascending: true });
+
+  if (error || !data) {
+    return [];
+  }
+
+  return data;
 }

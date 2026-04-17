@@ -46,6 +46,7 @@ export function AdminProjectEditPage() {
       onNextMedia={form.goToNext}
       onPreviousMedia={form.goToPrevious}
       onSubmit={handleSubmit}
+      technologies={form.technologies}
     />
   );
 }

@@ -1,3 +1,4 @@
+
 export type Project = {
   id: string;
   slug: string;
@@ -11,4 +12,6 @@ export type Project = {
   githubUrl: string;
   liveUrl?: string;
   readme: string;
+  // project_technologies: any[];
 };
+

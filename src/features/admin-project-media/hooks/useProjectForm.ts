@@ -2,7 +2,9 @@ import { useEffect, useMemo, useState } from "react";
 import {
   createProject,
   getProjectById,
+  handlerTecnologies,
   updateProject,
+  updateProjectTechnologies,
 } from "@/features/admin-project-media/services/project.service";
 import {
   deleteMedia,
@@ -14,6 +16,7 @@ import type {
   AdminProjectFormValues,
   AdminProjectPayload,
   AdminProjectRecord,
+  Technology,
 } from "@/features/admin-project-media/types/project.types";
 import type {
   ExistingMediaItem,
@@ -31,6 +34,7 @@ const defaultValues: AdminProjectFormValues = {
   demo_url: "",
   featured: false,
   status: "draft",
+  technologies: [],
 };
 
 type UseProjectFormOptions = {
@@ -41,6 +45,7 @@ type UseProjectFormState = {
   values: AdminProjectFormValues;
   project: AdminProjectRecord | null;
   mediaItems: ProjectMediaItem[];
+  technologies: Technology[];
   activeIndex: number;
   isLoading: boolean;
   isSaving: boolean;
@@ -61,8 +66,9 @@ type UseProjectFormState = {
 };
 
 function toPayload(values: AdminProjectFormValues): AdminProjectPayload {
+  const { technologies, ...rest } = values;
   return {
-    ...values,
+    ...rest,
     demo_url: values.demo_url || null,
   };
 }
@@ -71,6 +77,7 @@ export function useProjectForm({
   projectId,
 }: UseProjectFormOptions = {}): UseProjectFormState {
   const [values, setValues] = useState<AdminProjectFormValues>(defaultValues);
+  const [technologies, setTechnologies] = useState<Technology[]>([]);
   const [project, setProject] = useState<AdminProjectRecord | null>(null);
   const [initialMedia, setInitialMedia] = useState<ProjectMediaRecord[]>([]);
   const [isLoading, setIsLoading] = useState(Boolean(projectId));
@@ -79,9 +86,11 @@ export function useProjectForm({
   const isEditing = Boolean(projectId);
   const mediaManager = useMediaManager({ initialMedia });
 
+
   useEffect(() => {
     if (!projectId) {
       setValues(defaultValues);
+      setTechnologies([]);
       setProject(null);
       setInitialMedia([]);
       setIsLoading(false);
@@ -97,16 +106,18 @@ export function useProjectForm({
       setError(null);
 
       try {
-        const [projectRecord, mediaRecords] = await Promise.all([
+        const [projectRecord, mediaRecords, technologies] = await Promise.all([
           getProjectById(existingProjectId),
           getProjectMedia(existingProjectId),
+          handlerTecnologies(),
         ]);
 
-        if (!isMounted || !projectRecord) {
+        if (!isMounted || !projectRecord || !technologies) {
           return;
         }
 
         setProject(projectRecord);
+        setTechnologies(technologies);
         setValues({
           title: projectRecord.title,
           slug: projectRecord.slug,
@@ -116,6 +127,7 @@ export function useProjectForm({
           demo_url: projectRecord.demo_url ?? "",
           featured: projectRecord.featured,
           status: projectRecord.status,
+          technologies: projectRecord.technologies,
         });
         setInitialMedia(mediaRecords);
       } catch (loadError) {
@@ -189,14 +201,15 @@ export function useProjectForm({
           const uploadedItem = pendingByLocalId.get(item.localId);
           return uploadedItem
             ? {
-                id: uploadedItem.id,
-                display_order: index,
-              }
+              id: uploadedItem.id,
+              display_order: index,
+            }
             : null;
         })
         .filter((item): item is { id: string; display_order: number } => item !== null);
 
       await updateMediaOrder(finalMediaOrder);
+      await updateProjectTechnologies(savedProject.id, values.technologies.map(t => t.id));
       setProject(savedProject);
     } catch (submitError) {
       setError(submitError instanceof Error ? submitError.message : "Unable to save project.");
@@ -212,6 +225,7 @@ export function useProjectForm({
       project,
       mediaItems: mediaManager.mediaItems,
       activeIndex: mediaManager.activeIndex,
+      technologies,
       isLoading,
       isSaving,
       error,

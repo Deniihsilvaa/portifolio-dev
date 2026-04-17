@@ -29,6 +29,7 @@ export function useProjectDetails(slug: string): UseProjectDetailsState {
 
       try {
         const data = await getProjectBySlug(slug);
+
         if (isMounted) {
           if (!data) {
             setError("Project not found");

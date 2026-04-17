@@ -8,20 +8,20 @@ export function mapProject(dbProject: any): Project {
   // Handle project_technologies -> stack mapping
   const techNames = Array.isArray(dbProject.project_technologies)
     ? dbProject.project_technologies
-        .map((pt: any) => pt.technologies?.name)
-        .filter(Boolean)
+      .map((pt: any) => pt.technologies?.name)
+      .filter(Boolean)
     : [];
 
   // Handle project_media -> gallery mapping
   // Sort by display_order ascending
   const mediaItems = Array.isArray(dbProject.project_media)
     ? [...dbProject.project_media].sort(
-        (a: any, b: any) => (a.display_order || 0) - (b.display_order || 0)
-      )
+      (a: any, b: any) => (a.display_order || 0) - (b.display_order || 0)
+    )
     : [];
 
   const galleryUrls = mediaItems.map((media: any) => media.url).filter(Boolean);
-  
+
   // Use first gallery image as cover, or a fallback if empty
   const coverImage = galleryUrls.length > 0 ? galleryUrls[0] : "";
 

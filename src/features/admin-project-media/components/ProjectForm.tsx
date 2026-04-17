@@ -1,33 +1,14 @@
 import type { FormEvent } from "react";
 import { MediaPreviewCarousel } from "@/features/admin-project-media/components/MediaPreviewCarousel";
 import { MediaUploadZone } from "@/features/admin-project-media/components/MediaUploadZone";
-import type { ProjectMediaItem } from "@/features/admin-project-media/types/media.types";
 import type {
-  AdminProjectFormValues,
   AdminProjectStatus,
+  FieldProps,
+  ProjectFormProps,
+  TextareaFieldProps,
 } from "@/features/admin-project-media/types/project.types";
 
-type ProjectFormProps = {
-  title: string;
-  submitLabel: string;
-  values: AdminProjectFormValues;
-  mediaItems: ProjectMediaItem[];
-  activeIndex: number;
-  isLoading: boolean;
-  error: string | null;
-  mediaError: string | null;
-  onFieldChange: <K extends keyof AdminProjectFormValues>(
-    field: K,
-    value: AdminProjectFormValues[K],
-  ) => void;
-  onFilesSelected: (files: FileList | File[]) => Promise<void>;
-  onRemoveMedia: (localId: string) => void;
-  onMoveMedia: (fromIndex: number, toIndex: number) => void;
-  onSelectMedia: (index: number) => void;
-  onNextMedia: () => void;
-  onPreviousMedia: () => void;
-  onSubmit: () => Promise<void>;
-};
+
 
 export function ProjectForm({
   title,
@@ -38,6 +19,7 @@ export function ProjectForm({
   isLoading,
   error,
   mediaError,
+  technologies,
   onFieldChange,
   onFilesSelected,
   onRemoveMedia,
@@ -134,6 +116,12 @@ export function ProjectForm({
                 <span className="text-sm font-semibold text-on-card">Featured project</span>
               </label>
             </div>
+
+            <TechnologiesBox
+              availableTechnologies={technologies}
+              selectedTechnologies={values.technologies}
+              onChange={(newTechs) => onFieldChange("technologies", newTechs)}
+            />
           </div>
 
           <div className="space-y-6">
@@ -176,12 +164,7 @@ export function ProjectForm({
   );
 }
 
-type FieldProps = {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  required?: boolean;
-};
+
 
 function Field({ label, value, onChange, required }: FieldProps) {
   return (
@@ -198,12 +181,7 @@ function Field({ label, value, onChange, required }: FieldProps) {
   );
 }
 
-type TextareaFieldProps = {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  required?: boolean;
-};
+
 
 function TextareaField({
   label,
@@ -222,5 +200,55 @@ function TextareaField({
         className="w-full rounded-[1.5rem] border hairline-card bg-white px-4 py-3 text-sm text-on-card outline-none transition focus:border-[var(--color-accent-coral)]"
       />
     </label>
+  );
+}
+
+function TechnologiesBox({
+  availableTechnologies,
+  selectedTechnologies,
+  onChange,
+}: {
+  availableTechnologies: Technology[];
+  selectedTechnologies: Technology[];
+  onChange: (technologies: Technology[]) => void;
+}) {
+  const toggleTechnology = (tech: Technology) => {
+    const isSelected = selectedTechnologies.some((t) => t.id === tech.id);
+    if (isSelected) {
+      onChange(selectedTechnologies.filter((t) => t.id !== tech.id));
+    } else {
+      onChange([...selectedTechnologies, tech]);
+    }
+  };
+
+  return (
+    <div className="space-y-3">
+      <span className="text-sm font-semibold text-on-card">Tech Stack (Mandatory)</span>
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+        {availableTechnologies.map((tech) => {
+          const isSelected = selectedTechnologies.some((t) => t.id === tech.id);
+          return (
+            <label
+              key={tech.id}
+              className={`flex cursor-pointer items-center gap-3 rounded-xl border p-3 transition-all ${
+                isSelected
+                  ? "border-[var(--color-accent-coral)] bg-[var(--color-accent-coral)]/5 ring-1 ring-[var(--color-accent-coral)]"
+                  : "border-hairline-card bg-white hover:border-gray-300"
+              }`}
+            >
+              <input
+                type="checkbox"
+                className="hidden"
+                checked={isSelected}
+                onChange={() => toggleTechnology(tech)}
+              />
+              <span className={`text-xs font-medium ${isSelected ? "text-on-card" : "text-gray-500"}`}>
+                {tech.name}
+              </span>
+            </label>
+          );
+        })}
+      </div>
+    </div>
   );
 }

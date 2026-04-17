@@ -35,6 +35,15 @@ export function ProjectDetailsView({
       <ProjectHeader project={project} />
       <ProjectCarousel title={project.title} images={project.gallery} />
       <ReadmeSection markdown={project.readme} />
+      <p className="text-white font-semibold ">Tecnologias utilizadas:
+        {project?.stack.length > 0 && (
+          <div className="flex flex-col gap-2 mt-2 font-normal">
+            {project?.stack.map((stack) => (
+              <p key={stack} className="text-white"> - {stack}</p>
+            ))}
+          </div>
+        )}
+      </p>
     </div>
   );
 }
