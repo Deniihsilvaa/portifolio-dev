@@ -50,11 +50,11 @@ export function HomePage() {
               {/* Subtle inner decorative glow for exactly this card */}
               <div className="pointer-events-none absolute -right-32 -top-32 h-[400px] w-[400px] rounded-full bg-teal/10 blur-[100px]" />
 
-              <div className="relative z-10 mb-12 space-y-5 card">
+              <div className="relative z-10 mb-2 space-y-1 card">
                 <div className="inline-flex h-8 items-center rounded-full border hairline-card bg-[rgba(17,24,39,0.3)] px-4 text-xs font-semibold uppercase tracking-widest text-teal shadow-inner">
                   Portfólio de Aplicações
                 </div>
-                <h2 className="font-display text-4xl lg:text-5xl font-extrabold tracking-tight text-yellow-500 drop-shadow-md">
+                <h2 className="font-display text-4xl lg:text-4xl font-extrabold tracking-tight text-yellow-500 drop-shadow-md">
                   Meus Projetos Em Destaque
                 </h2>
                 <p className="max-w-2xl text-lg leading-relaxed text-white">

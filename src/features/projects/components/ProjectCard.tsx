@@ -27,6 +27,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
           className="surface-card group block overflow-hidden rounded-[1.5rem] shadow-card transition"
         >
           <div className="overflow-hidden">
+
             {project.coverImage ? (
               <motion.img
                 src={project.coverImage}

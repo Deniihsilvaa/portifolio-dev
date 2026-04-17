@@ -5,18 +5,57 @@ export default {
   theme: {
     extend: {
       colors: {
+        border: "var(--border)",
+        input: "var(--input)",
+        ring: "var(--ring)",
+        background: "var(--background)",
+        foreground: "var(--foreground)",
+        primary: {
+          DEFAULT: "var(--primary)",
+          foreground: "var(--primary-foreground)",
+        },
+        secondary: {
+          DEFAULT: "var(--secondary)",
+          foreground: "var(--secondary-foreground)",
+        },
+        destructive: {
+          DEFAULT: "var(--destructive)",
+          foreground: "var(--destructive-foreground)",
+        },
+        muted: {
+          DEFAULT: "var(--muted)",
+          foreground: "var(--muted-foreground)",
+        },
+        accent: {
+          DEFAULT: "var(--accent)",
+          foreground: "var(--accent-foreground)",
+        },
+        popover: {
+          DEFAULT: "var(--popover)",
+          foreground: "var(--popover-foreground)",
+        },
+        card: {
+          DEFAULT: "var(--card)",
+          foreground: "var(--card-foreground)",
+        },
         ink: "#111827",
         sand: "#f8f6f1",
         coral: "#ef6c57",
         teal: "#2b7a78",
         gold: "#e2b714"
       },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)"
+      },
       fontFamily: {
         sans: ["'Space Grotesk'", "ui-sans-serif", "system-ui", "sans-serif"],
         display: ["'Bricolage Grotesque'", "'Space Grotesk'", "sans-serif"]
       },
       boxShadow: {
-        card: "0 24px 60px rgba(17, 24, 39, 0.08)"
+        card: "0 10px 40px -12px rgba(0, 0, 0, 0.5)",
+        glow: "0 0 20px rgba(0, 0, 0, 0.2)"
       },
       backgroundImage: {
         "hero-grid":

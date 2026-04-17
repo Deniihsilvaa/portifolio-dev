@@ -28,7 +28,7 @@ export function HeroSection({ profile, isLoading, error }: HeroSectionProps) {
   }
 
   return (
-    <section className="surface-card relative isolate overflow-hidden rounded-[2.5rem] bg-surface/20 p-8 shadow-card backdrop-blur-md border hairline-card">
+    <section className="surface-card relative isolate overflow-hidden rounded-[2.5rem] bg-surface/20 p-1  shadow-card backdrop-blur-md border hairline-card">
       <motion.div
         aria-hidden="true"
         className="absolute right-[-4rem] top-[-3rem] h-56 w-56 rounded-full bg-coral/15 blur-3xl"
@@ -41,9 +41,9 @@ export function HeroSection({ profile, isLoading, error }: HeroSectionProps) {
         animate={shouldReduceMotion ? undefined : { scale: [1, 1.12, 1], y: [0, -20, 0] }}
         transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
       />
-      <div className="flex flex-col-reverse items-center gap-10 text-center sm:text-left">
+      <div className="flex flex-col-reverse items-center gap-5 text-center sm:text-left">
         <motion.div
-          className="space-y-6"
+          className="space-y-2"
           initial={shouldReduceMotion ? false : { opacity: 0, y: 36 }}
           animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
           transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
@@ -52,7 +52,7 @@ export function HeroSection({ profile, isLoading, error }: HeroSectionProps) {
             <Badge label={profile.availability} />
           </motion.div>
           <motion.div
-            className="space-y-4"
+            className="space-y-2"
             initial={shouldReduceMotion ? false : "hidden"}
             animate={shouldReduceMotion ? undefined : "show"}
             variants={{
@@ -66,7 +66,7 @@ export function HeroSection({ profile, isLoading, error }: HeroSectionProps) {
             }}
           >
             <motion.p
-              className="text-sm font-semibold uppercase tracking-[0.2em] text-coral"
+              className="text-sm p-3 font-semibold uppercase tracking-[0.2em] text-coral"
               variants={{
                 hidden: { opacity: 0, y: 16 },
                 show: { opacity: 1, y: 0 },
@@ -75,7 +75,7 @@ export function HeroSection({ profile, isLoading, error }: HeroSectionProps) {
               {profile.name || "Portfolio Home"}
             </motion.p>
             <motion.h1
-              className="font-display text-4xl font-extrabold tracking-tight text-on-card sm:text-5xl lg:text-6xl"
+              className="font-display p-2 text-3xl font-extrabold tracking-tight text-on-card sm:text-5xl lg:text-6xl"
               variants={{
                 hidden: { opacity: 0, y: 24 },
                 show: { opacity: 1, y: 0 },
@@ -84,7 +84,7 @@ export function HeroSection({ profile, isLoading, error }: HeroSectionProps) {
               {profile.title}
             </motion.h1>
             <motion.p
-              className="max-w-2xl text-lg leading-8 text-muted-on-card"
+              className="max-w-2xl text-base leading-8 text-muted-on-card text-justify"
               variants={{
                 hidden: { opacity: 0, y: 20 },
                 show: { opacity: 1, y: 0 },
@@ -99,14 +99,6 @@ export function HeroSection({ profile, isLoading, error }: HeroSectionProps) {
             animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
           >
-            <motion.div whileHover={shouldReduceMotion ? undefined : { y: -3 }} whileTap={{ scale: 0.98 }}>
-              <ButtonLink to="/#projects">View Projects</ButtonLink>
-            </motion.div>
-            <motion.div whileHover={shouldReduceMotion ? undefined : { y: -3 }} whileTap={{ scale: 0.98 }}>
-              <ButtonLink to="/#about" variant="ghost">
-                About Me
-              </ButtonLink>
-            </motion.div>
             {profile.socialLinks && profile.socialLinks.length > 0 && (
               <div className="ml-2 flex items-center gap-3 border-l border-white/10 pl-4">
                 {profile.socialLinks.map((link) => (
@@ -124,6 +116,17 @@ export function HeroSection({ profile, isLoading, error }: HeroSectionProps) {
             )}
           </motion.div>
         </motion.div>
+
+
+
+
+
+
+
+
+
+
+
         <motion.div
           className="justify-self-end"
           style={{ y: imageY }}
