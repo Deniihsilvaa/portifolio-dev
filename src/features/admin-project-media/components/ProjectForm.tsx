@@ -5,6 +5,7 @@ import type {
   AdminProjectStatus,
   FieldProps,
   ProjectFormProps,
+  Technology,
   TextareaFieldProps,
 } from "@/features/admin-project-media/types/project.types";
 
@@ -230,11 +231,10 @@ function TechnologiesBox({
           return (
             <label
               key={tech.id}
-              className={`flex cursor-pointer items-center gap-3 rounded-xl border p-3 transition-all ${
-                isSelected
+              className={`flex cursor-pointer items-center gap-3 rounded-xl border p-3 transition-all ${isSelected
                   ? "border-[var(--color-accent-coral)] bg-[var(--color-accent-coral)]/5 ring-1 ring-[var(--color-accent-coral)]"
                   : "border-hairline-card bg-white hover:border-gray-300"
-              }`}
+                }`}
             >
               <input
                 type="checkbox"

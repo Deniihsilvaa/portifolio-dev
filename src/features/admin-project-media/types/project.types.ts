@@ -1,4 +1,9 @@
 import { ProjectMediaItem } from "@/features/admin-project-media/types/media.types";
+export type Technology = {
+  id: string;
+  name: string;
+  icon_url: string;
+}
 
 export type AdminProjectStatus = "draft" | "published";
 
@@ -11,7 +16,7 @@ export type AdminProjectFormValues = {
   demo_url: string;
   featured: boolean;
   status: AdminProjectStatus;
-  technologies: Technology[];
+  technologies: any[];
 };
 
 export type AdminProjectRecord = {
@@ -22,11 +27,7 @@ export type AdminProjectRecord = {
 
 export type AdminProjectPayload = Omit<AdminProjectRecord, "id" | "technologies">;
 
-export type Technology = {
-  id: string;
-  name: string;
-  icon_url: string;
-}
+
 export type ProjectFormProps = {
   title: string;
   submitLabel: string;
