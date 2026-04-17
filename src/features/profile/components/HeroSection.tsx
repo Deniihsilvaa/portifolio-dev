@@ -1,10 +1,8 @@
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { Badge } from "@/components/ui/Badge";
-import { ButtonLink } from "@/components/ui/ButtonLink";
-import type { Profile } from "@/features/profile/types/profile";
 
 type HeroSectionProps = {
-  profile: Profile | null;
+  profile: any;
   isLoading: boolean;
   error: string | null;
 };
@@ -12,141 +10,102 @@ type HeroSectionProps = {
 export function HeroSection({ profile, isLoading, error }: HeroSectionProps) {
   const shouldReduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll();
-  const imageY = useTransform(scrollYProgress, [0, 0.4], [0, shouldReduceMotion ? 0 : 42]);
-  const badgeX = useTransform(scrollYProgress, [0, 0.25], [0, shouldReduceMotion ? 0 : 18]);
+
+  const imageY = useTransform(scrollYProgress, [0, 0.4], [0, shouldReduceMotion ? 0 : 40]);
 
   if (isLoading) {
-    return <section className="surface-card rounded-[2rem] p-8 shadow-card">Loading profile...</section>;
+    return (
+      <section className="rounded-3xl border bg-card p-8 shadow-sm">
+        Carregando perfil...
+      </section>
+    );
   }
 
   if (error || !profile) {
     return (
-      <section className="surface-card rounded-[2rem] p-8 shadow-card">
-        Unable to render the hero section.
+      <section className="rounded-3xl border bg-card p-8 shadow-sm">
+        Erro ao carregar perfil.
       </section>
     );
   }
 
   return (
-    <section className="surface-card relative isolate overflow-hidden rounded-[2.5rem] bg-surface/20 p-1  shadow-card backdrop-blur-md border hairline-card">
-      <motion.div
-        aria-hidden="true"
-        className="absolute right-[-4rem] top-[-3rem] h-56 w-56 rounded-full bg-coral/15 blur-3xl"
-        animate={shouldReduceMotion ? undefined : { scale: [1, 1.08, 1], x: [0, 18, 0] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        aria-hidden="true"
-        className="absolute bottom-[-5rem] left-[-3rem] h-64 w-64 rounded-full bg-teal/15 blur-3xl"
-        animate={shouldReduceMotion ? undefined : { scale: [1, 1.12, 1], y: [0, -20, 0] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <div className="flex flex-col-reverse items-center gap-5 text-center sm:text-left">
+    <section className="relative overflow-hidden rounded-3xl border bg-card/70 backdrop-blur-xl p-6 md:p-10 shadow-xl">
+
+      {/* Glow background */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute right-[-80px] top-[-80px] h-64 w-64 rounded-full bg-cyan-400/10 blur-[100px]" />
+        <div className="absolute left-[-80px] bottom-[-80px] h-72 w-72 rounded-full bg-teal-400/10 blur-[120px]" />
+      </div>
+
+      {/* GRID */}
+      <div className="relative z-10 grid gap-10 md:grid-cols-2 items-center">
+
+        {/* TEXT */}
         <motion.div
-          className="space-y-2"
-          initial={shouldReduceMotion ? false : { opacity: 0, y: 36 }}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 30 }}
           animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
-          transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.6 }}
+          className="space-y-6"
         >
-          <motion.div style={{ x: badgeX }}>
-            <Badge label={profile.availability} />
-          </motion.div>
-          <motion.div
-            className="space-y-2"
-            initial={shouldReduceMotion ? false : "hidden"}
-            animate={shouldReduceMotion ? undefined : "show"}
-            variants={{
-              hidden: {},
-              show: {
-                transition: {
-                  staggerChildren: 0.12,
-                  delayChildren: 0.1,
-                },
-              },
-            }}
-          >
-            <motion.p
-              className="text-sm p-3 font-semibold uppercase tracking-[0.2em] text-coral"
-              variants={{
-                hidden: { opacity: 0, y: 16 },
-                show: { opacity: 1, y: 0 },
-              }}
-            >
-              {profile.name || "Portfolio Home"}
-            </motion.p>
-            <motion.h1
-              className="font-display p-2 text-3xl font-extrabold tracking-tight text-on-card sm:text-5xl lg:text-6xl"
-              variants={{
-                hidden: { opacity: 0, y: 24 },
-                show: { opacity: 1, y: 0 },
-              }}
-            >
+          {/* BADGE */}
+          <Badge label={profile.availability} />
+
+          {/* TITLE */}
+          <div className="space-y-3">
+            <p className="text-sm uppercase tracking-widest text-muted-foreground">
+              {profile.name}
+            </p>
+
+            <h1 className="text-3xl md:text-5xl font-bold tracking-tight leading-tight text-black">
               {profile.title}
-            </motion.h1>
-            <motion.p
-              className="max-w-2xl text-base leading-8 text-muted-on-card text-justify"
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                show: { opacity: 1, y: 0 },
-              }}
-            >
+            </h1>
+
+            <p className="text-muted-foreground leading-relaxed max-w-xl">
               {profile.summary}
-            </motion.p>
-          </motion.div>
-          <motion.div
-            className="flex flex-wrap items-center gap-4"
-            initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
-            animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-          >
-            {profile.socialLinks && profile.socialLinks.length > 0 && (
-              <div className="ml-2 flex items-center gap-3 border-l border-white/10 pl-4">
-                {profile.socialLinks.map((link) => (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-sm font-medium text-muted-on-card transition-colors hover:text-white"
-                  >
-                    {link.label}
-                  </a>
-                ))}
-              </div>
-            )}
-          </motion.div>
+            </p>
+          </div>
+
+          {/* SOCIAL LINKS */}
+          {profile.socialLinks?.length > 0 && (
+            <div className="flex flex-wrap gap-4 pt-2">
+              {profile.socialLinks.map((link: any) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-sm font-medium text-muted-foreground hover:text-foreground transition"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          )}
         </motion.div>
 
-
-
-
-
-
-
-
-
-
-
+        {/* IMAGE */}
         <motion.div
-          className="justify-self-end"
           style={{ y: imageY }}
-          initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.94, rotate: -4 }}
-          animate={shouldReduceMotion ? undefined : { opacity: 1, scale: 1, rotate: 0 }}
-          transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.95 }}
+          animate={shouldReduceMotion ? undefined : { opacity: 1, scale: 1 }}
+          transition={{ duration: 0.7 }}
+          className="flex justify-center md:justify-end"
         >
           <motion.div
-            className="shrink-0 rounded-[2rem] border hairline-card bg-[rgba(17,24,39,0.04)] p-3"
-            whileHover={shouldReduceMotion ? undefined : { y: -4, rotate: -1.5 }}
-            transition={{ type: "spring", stiffness: 220, damping: 20 }}
+            whileHover={shouldReduceMotion ? undefined : { scale: 1.03 }}
+            className="relative"
           >
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-cyan-400/20 to-transparent blur-2xl" />
+
             {profile.avatarUrl ? (
               <img
                 src={profile.avatarUrl}
                 alt={profile.name}
-                className="aspect-square w-40 rounded-[1.5rem] object-cover sm:w-48"
+                className="relative w-40 md:w-56 aspect-square rounded-2xl object-cover border shadow-lg"
               />
             ) : (
-              <div className="aspect-square w-40 rounded-[1.5rem] bg-coral/10 sm:w-48" />
+              <div className="w-40 md:w-56 aspect-square rounded-2xl bg-muted" />
             )}
           </motion.div>
         </motion.div>
