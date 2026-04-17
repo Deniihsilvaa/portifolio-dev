@@ -1,14 +1,45 @@
 import { motion, useReducedMotion } from "motion/react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const navItems = [
-  { label: "Work", href: "/#projects", match: "work" },
-  { label: "Profile", href: "/#about", match: "about" },
+  { label: "Work", href: "/#projects", id: "projects" },
+  { label: "Profile", href: "/#about", id: "about" },
 ];
 
 export function Navbar() {
   const location = useLocation();
   const shouldReduceMotion = useReducedMotion();
+  const [activeSection, setActiveSection] = useState<string>("");
+
+  useEffect(() => {
+    // Only run on the homepage
+    if (location.pathname !== "/") return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      {
+        rootMargin: "-20% 0px -70% 0px", // Trigger when section is near the top
+        threshold: 0,
+      }
+    );
+
+    const sections = ["hero", "projects", "about"];
+    sections.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, [location.pathname]);
+
+  // Adjust hash on scroll maybe? No, just the active state for now.
 
   return (
     <header className="sticky top-0 z-40 mb-4 border-b hairline-dark bg-[rgba(8,9,13,0.78)] backdrop-blur-xl">
@@ -16,6 +47,7 @@ export function Navbar() {
         <motion.div whileHover={shouldReduceMotion ? undefined : { y: -1 }}>
           <Link
             to="/"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             className="inline-flex items-center gap-3 rounded-full border hairline-dark bg-white/5 px-4 py-2 text-sm font-semibold tracking-[0.18em] text-on-dark transition hover:bg-white/10"
           >
             <span className="h-2.5 w-2.5 rounded-full accent-gradient" />
@@ -25,15 +57,20 @@ export function Navbar() {
 
         <nav className="flex items-center gap-2 rounded-full border hairline-dark bg-white/5 p-1.5 text-sm">
           {navItems.map((item) => {
-            const isActive =
-              location.pathname === "/" &&
-              ((item.match === "work" && (location.hash === "#projects" || location.hash === "")) ||
-                (item.match === "about" && location.hash === "#about"));
+            const isActive = activeSection === item.id;
 
             return (
-              <Link
+              <a
                 key={item.label}
-                to={item.href}
+                href={item.href}
+                onClick={(e) => {
+                  e.preventDefault();
+                  const target = document.getElementById(item.id);
+                  if (target) {
+                    target.scrollIntoView({ behavior: "smooth" });
+                    setActiveSection(item.id);
+                  }
+                }}
                 className="group relative rounded-full px-4 py-2.5 font-medium text-muted-on-dark transition hover:text-on-dark"
               >
                 <motion.span
@@ -56,7 +93,7 @@ export function Navbar() {
                   className="absolute inset-0 rounded-full bg-white/8 opacity-0 transition group-hover:opacity-100"
                   whileHover={shouldReduceMotion ? undefined : { scale: 1.02 }}
                 />
-              </Link>
+              </a>
             );
           })}
         </nav>

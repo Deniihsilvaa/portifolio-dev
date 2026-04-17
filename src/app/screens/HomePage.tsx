@@ -1,6 +1,6 @@
 import { motion, useScroll, useSpring, useTransform } from "motion/react";
-import { AboutSection } from "@/features/profile/components/AboutSection";
 import { HeroSection } from "@/features/profile/components/HeroSection";
+import { AboutSection } from "@/features/profile/components/AboutSection";
 import { FeaturedProjectsSection } from "@/features/projects/components/FeaturedProjectsSection";
 import { useProfile } from "@/features/profile/hooks/useProfile";
 import { useProjects } from "@/features/projects/hooks/useProjects";
@@ -34,7 +34,7 @@ export function HomePage() {
       <div className="mx-auto max-w-6xl px-6 py-12 space-y-16">
 
         {/* HERO */}
-        <section className="space-y-8">
+        <section id="hero" className="space-y-8 scroll-mt-24">
           <HeroSection
             profile={profile}
             isLoading={isProfileLoading}
@@ -42,20 +42,20 @@ export function HomePage() {
           />
         </section>
 
-        {/* ABOUT (opcional, mas melhor manter para profundidade) */}
-        {/* <Reveal delay={0.1}>
-          <section className="max-w-3xl">
+        {/* ABOUT */}
+        <Reveal delay={0.1}>
+          <section id="about" className="max-w-3xl scroll-mt-24">
             <AboutSection
               profile={profile}
               isLoading={isProfileLoading}
               error={profileError}
             />
           </section>
-        </Reveal> */}
+        </Reveal>
 
         {/* PROJECTS */}
         <Reveal delay={0.2}>
-          <section className="space-y-8">
+          <section id="projects" className="space-y-8 scroll-mt-24">
 
             {/* HEADER */}
             <div className="space-y-3">
